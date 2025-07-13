@@ -1,0 +1,33 @@
+name: Обновить swagger.json и опубликовать на GitHub Pages
+
+on:
+  schedule:
+    - cron: '0 5 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Клонировать репозиторий
+        uses: actions/checkout@v3
+
+      - name: Установить Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Установить зависимости
+        run: pip install requests
+
+      - name: Скачать swagger.json
+        run: python fetch.py
+
+      - name: Коммит и Push
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "actions@github.com"
+          git add docs/swagger.json
+          git commit -m "Автообновление swagger.json" || echo "Нет изменений"
+          git push
