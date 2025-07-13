@@ -2,7 +2,7 @@ name: Обновить swagger.json и опубликовать на GitHub Page
 
 on:
   schedule:
-    - cron: '0 5 * * *'
+    - cron: '0 5 * * *'  # каждый день в 5:00 UTC (~8:00 по Москве)
   workflow_dispatch:
 
 jobs:
